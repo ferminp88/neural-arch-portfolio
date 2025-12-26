@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURAL-ARCH // Visionary Psych-Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cursor-size: 30px;
+            --color-acid: #bfff00;
+            --color-magenta: #ff00ff;
+            --color-cyan: #00ffff;
+        }
+        body {
+            background-color: #000;
+            color: #fff;
+            cursor: none;
+            overflow-x: hidden;
+            font-family: 'Syne', sans-serif;
+            transition: background 1s ease;
+        }
+        
+        /* Psych-Background Mesh */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 0% 50%, hsla(280,50%,20%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 50%, hsla(202,60%,15%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 50%, hsla(160,50%,20%,1) 0, transparent 50%), 
+                radial-gradient(at 0% 100%, hsla(339,49%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 100%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, hsla(253,16%,7%,1) 0, transparent 50%);
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: drift 20s infinite alternate linear;
+        }
+
+        @keyframes drift {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1.2) rotate(5deg); }
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .text-difference {
+            mix-blend-mode: difference;
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px #fff;
+            color: transparent;
+        }
+
+        .custom-cursor {
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease-out;
+            box-shadow: 0 0 40px #fff;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.15;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            mix-blend-mode: overlay;
+        }
+
+        .iridescent-border {
+            border: 1px solid transparent;
+            background: linear-gradient(#000, #000) padding-box,
+                        linear-gradient(45deg, var(--color-acid), var(--color-magenta), var(--color-cyan)) border-box;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="mesh-bg"></div>
+    <div class="noise-overlay"></div>
+    <div id="root"></div>
+    <div id="cursor" class="custom-cursor"></div>
+    
+    <script type="module" src="/index.tsx"></script>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            let dx = mouseX - cursorX;
+            let dy = mouseY - cursorY;
+            cursorX += dx * 0.15;
+            cursorY += dy * 0.15;
+            cursor.style.left = cursorX - 15 + 'px';
+            cursor.style.top = cursorY - 15 + 'px';
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        document.addEventListener('mousedown', () => cursor.style.transform = 'scale(3) rotate(45deg)');
+        document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1) rotate(0deg)');
+    </script>
+</body>
+</html>

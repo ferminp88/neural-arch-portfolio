@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+.pnpm-store/
+
+# Secretos (VITAL)
+.env
+.env.local
+.env.*.local
+
+# Compilación
+dist/
+build/
+
+# Logs y Temporales
+npm-debug.log*
+.DS_Store
+vite.config.ts.timestamp-*
